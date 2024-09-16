@@ -1,0 +1,147 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Book {
+    private String title;
+    private String author;
+    private String isbn;
+
+    public Book(String title, String author, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + title + ", Author: " + author + ", ISBN: " + isbn;
+    }
+}
+
+class LibraryCatalog {
+    private ArrayList<Book> catalog;
+
+    public LibraryCatalog() {
+        catalog = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        catalog.add(book);
+        System.out.println("Book added successfully!");
+    }
+
+    public void listBooks() {
+        if (catalog.isEmpty()) {
+            System.out.println("No books available in the catalog.");
+        } else {
+            System.out.println("Books in the catalog:");
+            for (Book book : catalog) {
+                System.out.println(book);
+            }
+        }
+    }
+
+    public void searchByTitle(String title) {
+        boolean found = false;
+        for (Book book : catalog) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                System.out.println(book);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No book found with the title: " + title);
+        }
+    }
+
+    public void searchByAuthor(String author) {
+        boolean found = false;
+        for (Book book : catalog) {
+            if (book.getAuthor().equalsIgnoreCase(author)) {
+                System.out.println(book);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No book found by the author: " + author);
+        }
+    }
+}
+
+public class Main {
+    private static Scanner scanner = new Scanner(System.in);
+    private static LibraryCatalog catalog = new LibraryCatalog();
+
+    public static void main(String[] args) {
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\nLibrary Catalog System");
+            System.out.println("1. Add Book");
+            System.out.println("2. List All Books");
+            System.out.println("3. Search by Title");
+            System.out.println("4. Search by Author");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addBook();
+                    break;
+                case 2:
+                    catalog.listBooks();
+                    break;
+                case 3:
+                    searchByTitle();
+                    break;
+                case 4:
+                    searchByAuthor();
+                    break;
+                case 5:
+                    running = false;
+                    System.out.println("Exiting the Library Catalog System.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void addBook() {
+        System.out.print("Enter the book title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter the author name: ");
+        String author = scanner.nextLine();
+        System.out.print("Enter the ISBN number: ");
+        String isbn = scanner.nextLine();
+
+        Book book = new Book(title, author, isbn);
+        catalog.addBook(book);
+    }
+
+    private static void searchByTitle() {
+        System.out.print("Enter the title of the book: ");
+        String title = scanner.nextLine();
+        catalog.searchByTitle(title);
+    }
+
+    private static void searchByAuthor() {
+        System.out.print("Enter the author's name: ");
+        String author = scanner.nextLine();
+        catalog.searchByAuthor(author);
+    }
+}
